@@ -20,7 +20,7 @@ public class Main {
 		}
 		try {
 			// retrieve image
-			File outputfile = new File("E:\\braindump\\saved.png");
+			File outputfile = new File("E:\\saved24343.png");
 			ImageIO.write(bufferedImage, "png", outputfile);
 		} catch (IOException e) {
 			e.printStackTrace();
