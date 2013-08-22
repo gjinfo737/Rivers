@@ -1,0 +1,12 @@
+bin/
+gen/
+.settings/
+.irb-history
+tmp/
+tests/
+reports/
+.idea/
+local.properties
+proguard-project.txt
+screenshots/
+
