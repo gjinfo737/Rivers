@@ -1,18 +1,25 @@
 package com.rivers;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.util.Random;
+
 public class WaterPoint {
-	private double stepSize = .01;
+	private double stepSize = 3;
 	private double x;
 	private double y;
 	private double directionDegrees;
+	private Random random;
 
 	public WaterPoint(double x, double y, double directionDegrees) {
 		this.x = x;
 		this.y = y;
 		this.directionDegrees = directionDegrees;
+		this.random = new Random();
+		System.out.println(String.format("%s, %s > %s", x, y, directionDegrees));
 	}
 
-	public WaterPoint getNextPoint() {
+	public WaterPoint nextPoint() {
 		return new WaterPoint(nextX(), nextY(), nextDirection());
 	}
 
@@ -25,7 +32,10 @@ public class WaterPoint {
 	}
 
 	private double nextDirection() {
-		return directionDegrees;
+		if (random.nextBoolean())
+			return directionDegrees;
+		int nextInt = random.nextInt(5);
+		return random.nextBoolean() ? directionDegrees + nextInt : directionDegrees - nextInt;
 	}
 
 	private double cosStep() {
@@ -56,11 +66,11 @@ public class WaterPoint {
 		switch (quadrant) {
 		case 3:
 		case 4:
-			return -1;
+			return 1;
 		case 1:
 		case 2:
 		default:
-			return 1;
+			return -1;
 		}
 	}
 
@@ -94,5 +104,11 @@ public class WaterPoint {
 			return 3;
 		}
 		return 4;
+	}
+
+	public void draw(Graphics2D g) {
+		g.setColor(Color.MAGENTA);
+		g.drawOval((int) x, (int) y, 2, 2);
+
 	}
 }

@@ -15,8 +15,15 @@ public class WaterPath {
 
 	}
 
-	private void step() {
-		WaterPoint next = points.get(points.size() - 1).getNextPoint();
+	void step() {
+		points.add(currentPoint().nextPoint());
+	}
 
+	private WaterPoint currentPoint() {
+		return points.get(points.size() - 1);
+	}
+
+	public List<WaterPoint> getPoints() {
+		return points;
 	}
 }
