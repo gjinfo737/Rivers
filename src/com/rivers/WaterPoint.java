@@ -5,18 +5,27 @@ import java.awt.Graphics2D;
 import java.util.Random;
 
 public class WaterPoint {
+
+	private static final int SPAWN_MAX_DIRECTION_CHANGE = 10;
 	private double stepSize = 3;
 	private double x;
 	private double y;
 	private double directionDegrees;
-	private Random random;
+	private static Random random;
 
 	public WaterPoint(double x, double y, double directionDegrees) {
 		this.x = x;
 		this.y = y;
 		this.directionDegrees = directionDegrees;
 		this.random = new Random();
-		System.out.println(String.format("%s, %s > %s", x, y, directionDegrees));
+	}
+
+	public WaterPoint(WaterPoint currentPoint) {
+		this(currentPoint.x, currentPoint.y,
+				random.nextBoolean() ? currentPoint.directionDegrees
+						+ random.nextInt(SPAWN_MAX_DIRECTION_CHANGE)
+						: currentPoint.directionDegrees
+								- random.nextInt(SPAWN_MAX_DIRECTION_CHANGE));
 	}
 
 	public WaterPoint nextPoint() {
@@ -35,7 +44,8 @@ public class WaterPoint {
 		if (random.nextBoolean())
 			return directionDegrees;
 		int nextInt = random.nextInt(5);
-		return random.nextBoolean() ? directionDegrees + nextInt : directionDegrees - nextInt;
+		return random.nextBoolean() ? directionDegrees + nextInt
+				: directionDegrees - nextInt;
 	}
 
 	private double cosStep() {

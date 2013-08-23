@@ -4,25 +4,16 @@ import java.awt.image.BufferedImage;
 
 public class Main {
 	public static void main(String[] args) {
-		WaterPoint startPoint = new WaterPoint(0, 0, 270 + 45);
-		WaterPath wp = new WaterPath(startPoint);
-		for (int i = 0; i < 1000; i++) {
-			wp.step();
-		}
-
+		WaterPath wp1 = new WaterPath(new WaterPoint(400, 0, 270 - 45), 4, 0,
+				1000);
+		WaterPath wp2 = new WaterPath(new WaterPoint(0, 0, 270 + 45), 4, 0, 500);
+		WaterPath wp3 = new WaterPath(new WaterPoint(200, 200, 90), 4, 0, 10000);
 		BufferedImage bufferedImage = new BufferedImage(500, 500,
 				BufferedImage.TYPE_4BYTE_ABGR);
-		for (WaterPoint p : wp.getPoints()) {
-			p.draw(bufferedImage.createGraphics());
-		}
-		// try {
-		// // retrieve image
-		// File outputfile = new File("E:\\saved24343.png");
-		// ImageIO.write(bufferedImage, "png", outputfile);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
 
+		wp1.drawPoints(bufferedImage.createGraphics());
+		wp2.drawPoints(bufferedImage.createGraphics());
+		wp3.drawPoints(bufferedImage.createGraphics());
 		new Window().setIcon(bufferedImage);
 	}
 }
