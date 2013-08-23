@@ -6,18 +6,26 @@ import java.util.Random;
 
 public class WaterPoint {
 
+	private static final Color[] COLORS = new Color[] { Color.WHITE,
+			Color.BLACK, Color.MAGENTA, Color.CYAN, Color.BLUE,
+			Color.DARK_GRAY, Color.RED, Color.GREEN };
 	private static final int SPAWN_MAX_DIRECTION_CHANGE = 10;
 	private double stepSize = 3;
 	private double x;
 	private double y;
 	private double directionDegrees;
-	private static Random random;
+	private Color color;
+	private static Random random = new Random();
 
 	public WaterPoint(double x, double y, double directionDegrees) {
+		this(x, y, directionDegrees, COLORS[random.nextInt(COLORS.length)]);
+	}
+
+	public WaterPoint(double x, double y, double directionDegrees, Color color) {
 		this.x = x;
 		this.y = y;
 		this.directionDegrees = directionDegrees;
-		this.random = new Random();
+		this.color = color;
 	}
 
 	public WaterPoint(WaterPoint currentPoint) {
@@ -29,7 +37,7 @@ public class WaterPoint {
 	}
 
 	public WaterPoint nextPoint() {
-		return new WaterPoint(nextX(), nextY(), nextDirection());
+		return new WaterPoint(nextX(), nextY(), nextDirection(), color);
 	}
 
 	private double nextX() {
@@ -43,9 +51,10 @@ public class WaterPoint {
 	private double nextDirection() {
 		if (random.nextBoolean())
 			return directionDegrees;
-		int nextInt = random.nextInt(5);
-		return random.nextBoolean() ? directionDegrees + nextInt
-				: directionDegrees - nextInt;
+
+		double turnAmount = random.nextDouble() * 1;
+		return random.nextBoolean() ? directionDegrees + turnAmount
+				: directionDegrees - turnAmount;
 	}
 
 	private double cosStep() {
@@ -117,7 +126,7 @@ public class WaterPoint {
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(color);
 		g.drawOval((int) x, (int) y, 2, 2);
 
 	}
