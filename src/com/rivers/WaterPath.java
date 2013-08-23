@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 public class WaterPath {
+
 	private int maxSpawns;
 	private int numberOfSpawns;
 	private List<WaterPoint> points;
@@ -13,9 +14,14 @@ public class WaterPath {
 	private List<WaterPath> spawns;
 	private int chanceToSpawn = 5;
 	private int iterations;
+	private List<AffectorPoint> affectorPoints;
+	private final int width;
+	private final int height;
 
-	public WaterPath(WaterPoint startPoint, int maxSpawns, int numberOfSpawns,
-			int iterations) {
+	public WaterPath(WaterPoint startPoint, int maxSpawns, int numberOfSpawns, int iterations, int width, int height) {
+		this.width = width;
+		this.height = height;
+		this.affectorPoints = AffectorPoint.createAffectors(width, height, AffectorPoint.AFFECTOR_DENSITY);
 		this.maxSpawns = maxSpawns;
 		this.numberOfSpawns = numberOfSpawns;
 		this.iterations = iterations;
@@ -40,8 +46,7 @@ public class WaterPath {
 				chanceToSpawn = chanceToSpawn > 100 ? 100 : chanceToSpawn;
 				this.numberOfSpawns++;
 				System.err.println("spawn " + numberOfSpawns);
-				spawns.add(new WaterPath(new WaterPoint(currentPoint()),
-						maxSpawns - 1, numberOfSpawns, (int) (iterations / 2f)));
+				spawns.add(new WaterPath(new WaterPoint(currentPoint()), maxSpawns - 1, numberOfSpawns, (int) (iterations / 2f), width, height));
 			}
 		}
 		points.add(currentPoint().nextPoint());
@@ -56,6 +61,9 @@ public class WaterPath {
 	}
 
 	public void drawPoints(Graphics2D g) {
+		for (AffectorPoint ap : affectorPoints) {
+			ap.draw(g);
+		}
 		for (WaterPoint p : points) {
 			p.draw(g);
 		}
