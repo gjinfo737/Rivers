@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class AffectorPoint {
-	public static final double AFFECTOR_DENSITY = .00002;
+	public static final double AFFECTOR_DENSITY = .00003;
 	private double x;
 	private double y;
 	private double affection;
@@ -23,16 +23,39 @@ public class AffectorPoint {
 		List<AffectorPoint> created = new ArrayList<AffectorPoint>();
 		int count = random.nextInt((int) ((width * height) * density));
 		for (int i = 0; i < count; i++) {
-			created.add(new AffectorPoint(random.nextDouble() * width, random.nextDouble() * height, random.nextDouble()));
+			created.add(new AffectorPoint(random.nextDouble() * width, random.nextDouble() * height, nextAffection(random)));
 		}
 
 		return created;
 	}
 
+	private static double nextAffection(Random random) {
+		return 10 + Math.random() * 10;
+	}
+
 	public void draw(Graphics2D g) {
 		g.setColor(Color.ORANGE);
-		int size = (int) (100 * affection);
+		int size = (int) (1 * affection);
+		System.out.println(x + ", " + y + "draw affection: " + size);
 		g.drawOval((int) x, (int) y, size, size);
 		g.fillOval((int) x, (int) y, size, size);
+	}
+
+	public double affectX(double dx) {
+		double distance = Math.abs(dx - x);
+		if (x < dx)
+			dx -= affection / distance;
+		else if (x > dx)
+			dx += affection / distance;
+		return dx;
+	}
+
+	public double affectY(double dy) {
+		double distance = Math.abs(dy - y);
+		if (y < dy)
+			dy -= affection / distance;
+		else if (y > dy)
+			dy += affection / distance;
+		return dy;
 	}
 }

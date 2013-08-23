@@ -49,7 +49,7 @@ public class WaterPath {
 				spawns.add(new WaterPath(new WaterPoint(currentPoint()), maxSpawns - 1, numberOfSpawns, (int) (iterations / 2f), width, height));
 			}
 		}
-		points.add(currentPoint().nextPoint());
+		points.add(currentPoint().nextPoint(affectorPoints));
 	}
 
 	private WaterPoint currentPoint() {

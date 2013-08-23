@@ -2,13 +2,12 @@ package com.rivers;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.List;
 import java.util.Random;
 
 public class WaterPoint {
 
-	private static final Color[] COLORS = new Color[] { Color.WHITE,
-			Color.BLACK, Color.MAGENTA, Color.CYAN, Color.BLUE,
-			Color.DARK_GRAY, Color.RED, Color.GREEN };
+	private static final Color[] COLORS = new Color[] { Color.WHITE, Color.BLACK, Color.MAGENTA, Color.CYAN, Color.BLUE, Color.DARK_GRAY, Color.RED, Color.GREEN };
 	private static final int SPAWN_MAX_DIRECTION_CHANGE = 10;
 	private double stepSize = 3;
 	private double x;
@@ -29,32 +28,32 @@ public class WaterPoint {
 	}
 
 	public WaterPoint(WaterPoint currentPoint) {
-		this(currentPoint.x, currentPoint.y,
-				random.nextBoolean() ? currentPoint.directionDegrees
-						+ random.nextInt(SPAWN_MAX_DIRECTION_CHANGE)
-						: currentPoint.directionDegrees
-								- random.nextInt(SPAWN_MAX_DIRECTION_CHANGE));
+		this(currentPoint.x, currentPoint.y, random.nextBoolean() ? currentPoint.directionDegrees + random.nextInt(SPAWN_MAX_DIRECTION_CHANGE) : currentPoint.directionDegrees
+				- random.nextInt(SPAWN_MAX_DIRECTION_CHANGE));
 	}
 
-	public WaterPoint nextPoint() {
-		return new WaterPoint(nextX(), nextY(), nextDirection(), color);
+	public WaterPoint nextPoint(List<AffectorPoint> affectorPoints) {
+		return new WaterPoint(nextX(affectorPoints), nextY(affectorPoints), nextDirection(), color);
 	}
 
-	private double nextX() {
-		return cosStep() + x;
+	private double nextX(List<AffectorPoint> affectorPoints) {
+		double dx = cosStep() + x;
+		for (AffectorPoint affectorPoint : affectorPoints) {
+			dx = affectorPoint.affectX(dx);
+		}
+		return dx;
 	}
 
-	private double nextY() {
-		return sinStep() + y;
+	private double nextY(List<AffectorPoint> affectorPoints) {
+		double dy = sinStep() + y;
+		for (AffectorPoint affectorPoint : affectorPoints) {
+			dy = affectorPoint.affectY(dy);
+		}
+		return dy;
 	}
 
 	private double nextDirection() {
-		if (random.nextBoolean())
-			return directionDegrees;
-
-		double turnAmount = random.nextDouble() * 1;
-		return random.nextBoolean() ? directionDegrees + turnAmount
-				: directionDegrees - turnAmount;
+		return random.nextBoolean() ? directionDegrees + 1 : directionDegrees - 1;
 	}
 
 	private double cosStep() {
