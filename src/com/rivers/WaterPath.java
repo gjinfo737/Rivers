@@ -18,16 +18,18 @@ public class WaterPath {
 	private final int width;
 	private final int height;
 
-	public WaterPath(WaterPoint startPoint, int maxSpawns, int numberOfSpawns, int iterations, int width, int height) {
+	public WaterPath(WaterPoint startPoint, int maxSpawns, int numberOfSpawns,
+			int iterations, int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.affectorPoints = AffectorPoint.createAffectors(width, height, AffectorPoint.AFFECTOR_DENSITY);
+		this.affectorPoints = AffectorPoint.createAffectors(width, height,
+				AffectorPoint.AFFECTOR_DENSITY);
 		this.maxSpawns = maxSpawns;
 		this.numberOfSpawns = numberOfSpawns;
 		this.iterations = iterations;
 		points = new ArrayList<WaterPoint>();
 		points.add(startPoint);
-		random = new Random();
+		random = new Random(Main.SEED);
 		spawns = new ArrayList<WaterPath>();
 		iterate();
 
@@ -46,7 +48,9 @@ public class WaterPath {
 				chanceToSpawn = chanceToSpawn > 100 ? 100 : chanceToSpawn;
 				this.numberOfSpawns++;
 				System.err.println("spawn " + numberOfSpawns);
-				spawns.add(new WaterPath(new WaterPoint(currentPoint()), maxSpawns - 1, numberOfSpawns, (int) (iterations / 2f), width, height));
+				spawns.add(new WaterPath(new WaterPoint(currentPoint()),
+						maxSpawns - 1, numberOfSpawns, (int) (iterations / 2f),
+						width, height));
 			}
 		}
 		points.add(currentPoint().nextPoint(affectorPoints));

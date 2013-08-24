@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 public class AffectorPoint {
-	public static final double AFFECTOR_DENSITY = .00003;
+	public static final double AFFECTOR_DENSITY = .00002;
+
 	private double x;
 	private double y;
 	private double affection;
@@ -18,19 +19,21 @@ public class AffectorPoint {
 		this.affection = affection;
 	}
 
-	public static List<AffectorPoint> createAffectors(int width, int height, double density) {
-		Random random = new Random();
+	public static List<AffectorPoint> createAffectors(int width, int height,
+			double density) {
+		Random random = new Random(Main.SEED);
 		List<AffectorPoint> created = new ArrayList<AffectorPoint>();
 		int count = random.nextInt((int) ((width * height) * density));
 		for (int i = 0; i < count; i++) {
-			created.add(new AffectorPoint(random.nextDouble() * width, random.nextDouble() * height, nextAffection(random)));
+			created.add(new AffectorPoint(random.nextDouble() * width, random
+					.nextDouble() * height, nextAffection(random)));
 		}
 
 		return created;
 	}
 
 	private static double nextAffection(Random random) {
-		return 10 + Math.random() * 10;
+		return 5 + random.nextDouble() * 5;
 	}
 
 	public void draw(Graphics2D g) {

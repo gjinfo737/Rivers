@@ -7,14 +7,16 @@ import java.util.Random;
 
 public class WaterPoint {
 
-	private static final Color[] COLORS = new Color[] { Color.WHITE, Color.BLACK, Color.MAGENTA, Color.CYAN, Color.BLUE, Color.DARK_GRAY, Color.RED, Color.GREEN };
+	private static final Color[] COLORS = new Color[] { Color.WHITE,
+			Color.BLACK, Color.MAGENTA, Color.CYAN, Color.BLUE,
+			Color.DARK_GRAY, Color.RED, Color.GREEN };
 	private static final int SPAWN_MAX_DIRECTION_CHANGE = 10;
-	private double stepSize = 3;
+	private double stepSize = .5;
 	private double x;
 	private double y;
 	private double directionDegrees;
 	private Color color;
-	private static Random random = new Random();
+	private static Random random = new Random(Main.SEED);
 
 	public WaterPoint(double x, double y, double directionDegrees) {
 		this(x, y, directionDegrees, COLORS[random.nextInt(COLORS.length)]);
@@ -28,12 +30,16 @@ public class WaterPoint {
 	}
 
 	public WaterPoint(WaterPoint currentPoint) {
-		this(currentPoint.x, currentPoint.y, random.nextBoolean() ? currentPoint.directionDegrees + random.nextInt(SPAWN_MAX_DIRECTION_CHANGE) : currentPoint.directionDegrees
-				- random.nextInt(SPAWN_MAX_DIRECTION_CHANGE));
+		this(currentPoint.x, currentPoint.y,
+				random.nextBoolean() ? currentPoint.directionDegrees
+						+ random.nextInt(SPAWN_MAX_DIRECTION_CHANGE)
+						: currentPoint.directionDegrees
+								- random.nextInt(SPAWN_MAX_DIRECTION_CHANGE));
 	}
 
 	public WaterPoint nextPoint(List<AffectorPoint> affectorPoints) {
-		return new WaterPoint(nextX(affectorPoints), nextY(affectorPoints), nextDirection(), color);
+		return new WaterPoint(nextX(affectorPoints), nextY(affectorPoints),
+				nextDirection(), color);
 	}
 
 	private double nextX(List<AffectorPoint> affectorPoints) {
@@ -53,7 +59,8 @@ public class WaterPoint {
 	}
 
 	private double nextDirection() {
-		return random.nextBoolean() ? directionDegrees + 1 : directionDegrees - 1;
+		return random.nextBoolean() ? directionDegrees + 1
+				: directionDegrees - 1;
 	}
 
 	private double cosStep() {
