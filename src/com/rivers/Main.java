@@ -4,9 +4,21 @@ import java.awt.image.BufferedImage;
 
 public class Main {
 
+	private static final int NUM_ITERATIONS = 1000000;
+	public static final int SIZE = 500;
 	public static final long SEED = 1098080;
 
 	public static void main(String[] args) {
+		DropletWalker dropletWalker = new DropletWalker(SIZE, SIZE,
+				NUM_ITERATIONS);
+
+		BufferedImage bufferedImage = new BufferedImage(SIZE, SIZE,
+				BufferedImage.TYPE_4BYTE_ABGR);
+		dropletWalker.draw(bufferedImage.createGraphics());
+		new Window().setIcon(bufferedImage);
+	}
+
+	private static void path() {
 		int iterations = 100000;
 		WaterPoint startPoint1 = new WaterPoint(400, 0, 270 - 45);
 		WaterPoint startPoint2 = new WaterPoint(0, 0, 270 + 45);
@@ -18,7 +30,7 @@ public class Main {
 				500, 500);
 		WaterPath wp3 = new WaterPath(startPoint3, maxSpawns, 0, iterations,
 				500, 500);
-		BufferedImage bufferedImage = new BufferedImage(500, 500,
+		BufferedImage bufferedImage = new BufferedImage(SIZE, SIZE,
 				BufferedImage.TYPE_4BYTE_ABGR);
 
 		wp1.drawPoints(bufferedImage.createGraphics());
