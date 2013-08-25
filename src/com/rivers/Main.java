@@ -9,9 +9,9 @@ public class Main {
 
 	private static final Color DARK_GREEN = new Color(49, 92, 45);
 	private static final Color BROWN = new Color(227, 175, 86);
-	private static final int NUM_ITERATIONS_WATER = 500000;
-	private static final int NUM_ITERATIONS_TREES = 500;
-	public static final int SIZE = 500;
+	private static final int NUM_ITERATIONS_WATER = 1500000;
+	private static final int NUM_ITERATIONS_TREES = 1500;
+	public static final int SIZE = 1000;
 	public static final long SEED = 106801211;
 
 	public static void main(String[] args) {
