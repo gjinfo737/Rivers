@@ -6,18 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class DropletWalker {
+public class SpreadWalker {
 	private static final Color[] COLORS = new Color[] { Color.BLUE };
 	private static final int SPAWN_MAX_DIRECTION_CHANGE = 10;
 	private double stepSize = .01;
 	private double x;
 	private double y;
 	private Color color;
-	private static Random random = new Random(Main.SEED);
+	private Random random;
 	private List<Double[]> drops;
 
-	public DropletWalker(double width, double height, int numberOfIterations) {
-		color = COLORS[random.nextInt(COLORS.length)];
+	public SpreadWalker(double width, double height, int numberOfIterations, long seed, Color color) {
+		random = new Random(seed);
+		this.color = color;
 		x = random.nextDouble() * width;
 		y = random.nextDouble() * height;
 		drops = new ArrayList<Double[]>();
